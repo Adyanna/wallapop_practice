@@ -10,9 +10,8 @@ export const loadProductsModel = async () => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response.status);
         if (!response.ok) {
-            throw new Error('Error al cargar productos, por favor intenta de nuevo más tarde');
+            throw new Error('No se encuentran productos que mostrar');
         }
         const data = await response.json();
         return data;
@@ -25,10 +24,7 @@ export const loadProductsModel = async () => {
 }
 
 
-
-
 export async function createProductModel(newPrd) {
-    console.log('LISTA DE PRODUCTOS', newPrd);
     const url = 'http://localhost:8000/api/products';
     const token = localStorage.getItem('token');
     try {
@@ -58,11 +54,12 @@ export async function loadProductModel(productId) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-
             }
         });
+        console.log(response);
         if (!response.ok) {
-            throw new Error('Error al cargar el producto, por favor intenta de nuevo más tarde');
+            console.log(response);
+            throw new Error('El producto indicado no existe o no se puede cargar, por favor intenta de nuevo más tarde');
         }
         const data = await response.json();
         return data;

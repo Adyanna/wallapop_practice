@@ -1,5 +1,5 @@
 import { loadProductsModel, createProductModel, loadProductModel } from './productsModel.js';
-import { renderProducts, renderEmpty, renderCreateProductForm, renderProductDetail } from './productsView.js';
+import { renderProducts, renderEmpty, renderCreateProductForm, renderProductDetail,productEnableEdit,productDisabledEdit } from './productsView.js';
 import { getLogUserInfo } from "../singup/singupModel.js";
 //MUESTRA TODO
 export const productController = async (container) => {
@@ -15,22 +15,19 @@ export const productController = async (container) => {
             throw new Error("No se encuentran productos que mostrar");
         }
     } catch (error) {
-        const failedEvent = new CustomEvent('LoadProducts', {
+        const failedEvent = new CustomEvent('showNotification', {
             detail: {
-                message: error,
+                message: error.message,
                 type_error: "error"
             }
         });
-        //console.log(container);
         container.dispatchEvent(failedEvent);
-        //console.log('Error:', error);
     }
     finally {
         const removeEvent = new CustomEvent('RemoveLoading');
         container.dispatchEvent(removeEvent);
     };
 };
-
 
 //MUESTRA FORMULARIO PARA CREACION DE PRODUCTO
 export const createProductPageController = (container) => {
@@ -91,7 +88,7 @@ const createProductController = async (container, header) => {
 export const productDetailController = async (container) => {
 
     const productId = new URLSearchParams(window.location.search).get('id');
-    if(!productId) {
+    if (!productId) {
         const failedEvent = new CustomEvent('showNotification', {
             detail: {
                 message: "ID de producto no válido",
@@ -109,15 +106,31 @@ export const productDetailController = async (container) => {
         const userToken = localStorage.getItem('token');
         let userbool = false;
         const detailprd = await loadProductModel(productId);
-        
+
         if (userToken) {
             const userInfo = await getLogUserInfo(userToken);
             if (userInfo.id === detailprd.userId) {
                 userbool = true;
-                console.log('El usuario es el propietario del producto ',productId);
             }
         }
-        container.innerHTML = renderProductDetail(detailprd,userbool);
+        container.innerHTML = renderProductDetail(detailprd, userbool);
+
+        const editButton = container.querySelector('.btn-edit');
+        const saveButton = container.querySelector('.btn-save');
+        const cancelButton = container.querySelector('.btn-cancel');
+        editButton.addEventListener('click', () => {
+            productEnableEdit(container);
+            editButton.style.display = 'none';
+            saveButton.style.display = 'inline-block';
+            cancelButton.style.display = 'inline-block';
+        });
+
+        cancelButton.addEventListener('click', () => {
+            productDisabledEdit(container,detailprd);
+            editButton.style.display = 'inline-block';
+            saveButton.style.display = 'none';
+            cancelButton.style.display = 'none';
+        })
 
         const successEvent = new CustomEvent('showNotification', {
             detail: {
@@ -140,3 +153,4 @@ export const productDetailController = async (container) => {
         container.dispatchEvent(removeEvent);
     }
 }
+

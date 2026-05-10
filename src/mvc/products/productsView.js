@@ -1,37 +1,3 @@
-// // View: Handles DOM updates and rendering
-// const loading = document.getElementById('loading');
-// const errorDiv = document.getElementById('error');
-// const empty = document.getElementById('empty');
-// const productsSection = document.querySelector('.products');
-// const createBtn = document.getElementById('createBtn');
-// const adDetail = document.getElementById('adDetail');
-// const loginBtn = document.getElementById('loginBtn');
-// const logoutBtn = document.getElementById('logoutBtn');
-
-// export function showLoading() {
-//     loading.style.display = 'block';
-//     errorDiv.style.display = 'none';
-//     empty.style.display = 'none';
-//     productsSection.style.display = 'none';
-//     adDetail.style.display = 'none';
-// }
-
-// export function showError() {
-//     loading.style.display = 'none';
-//     errorDiv.style.display = 'block';
-//     empty.style.display = 'none';
-//     productsSection.style.display = 'none';
-//     adDetail.style.display = 'none';
-// }
-
-// export function showEmpty() {
-//     loading.style.display = 'none';
-//     errorDiv.style.display = 'none';
-//     empty.style.display = 'block';
-//     productsSection.style.display = 'none';
-//     adDetail.style.display = 'none';
-// }
-
 export function renderProducts(prdc, container) {
     container.innerHTML = '';
     prdc.forEach(prd => {
@@ -211,55 +177,118 @@ export function renderCreateProductForm() {
     `;
 }
 
-export function renderProductDetail(product,userbool) {
-    return `<div class="product-detail-wrapper">
+export function renderProductDetail(product, userbool) {
+    return `<div class="product-detail-wrapper ${!product.image?'no-image':''}">
     <h1 class="page-title">
         Detalle del producto
     </h1>
-        <form class="product-detail-form">
+        <form class="product-detail-form ${!product.image?'no-image':''}">
             <div class="product-info-section">
                 <div class="form-group">
                     <label class="form-label">Nombre</label>
-                    <input type="text" class="detail-input title-input" value="${product.name}" disabled>
+                    <input type="text" class="detail-input title-input name" value="${product.name}" disabled>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Descripción</label>
-                    <textarea class="detail-input textarea-input" disabled>${product.description}</textarea>
+                    <textarea class="detail-input textarea-input description" disabled>${product.description}</textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Precio</label>
-                    <input type="number" class="detail-input price-input" value="${product.price}" disabled>
+                    <input type="number" class="detail-input price-input price" value="${product.price}" disabled>
                 </div>
                 <div class="form-group">
-                    <label class="form-label"> Tipo </label>
-                    <input type="text" class="detail-input" value="${product.type}" disabled>
+                    <label class="form-label">Tipo</label>
+
+                    <select class="detail-input type-input type" disabled>
+                        <option value="sale" ${product.type === 'sale' ? 'selected' : ''}>
+                            Venta
+                        </option>
+
+                        <option value="purchase" ${product.type === 'purchase' ? 'selected' : ''}>
+                            Compra
+                        </option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tags</label>
-                    <input type="text" class="detail-input" value="${product.tags.join(', ')}" disabled>
+                    <label class="form-label d-block mb-3">Tags</label>
+                    <div class="contenedor-tags">
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Tecnología" ${product.tags.includes('Tecnología') ? 'checked' : ''} disabled>Tecnología</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Hogar" ${product.tags.includes('Hogar') ? 'checked' : ''} disabled>Hogar</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Moda" ${product.tags.includes('Moda') ? 'checked' : ''} disabled>Moda</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Belleza" ${product.tags.includes('Belleza') ? 'checked' : ''} disabled>Belleza</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Deportes" ${product.tags.includes('Deportes') ? 'checked' : ''} disabled>Deportes</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Vehículos" ${product.tags.includes('Vehículos') ? 'checked' : ''} disabled>Vehículos</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Herramientas" ${product.tags.includes('Herramientas') ? 'checked' : ''} disabled>Herramientas</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Entretenimiento" ${product.tags.includes('Entretenimiento') ? 'checked' : ''} disabled>Entretenimiento</label>
+                        <label class="tag-item"><input type="checkbox" name="tags" value="Otros" ${product.tags.includes('Otros') ? 'checked' : ''} disabled>Otros</label>
+                    </div>
                 </div>
-                ${product.image===''? `
+                ${product.image === '' ? `
                 <div class="form-group">
                     <label class="form-label">URL Imagen</label>
-                    <input type="url" class="detail-input" value="" disabled>
+                    <input type="url" class="detail-input image" value="" disabled>
                 </div>
-                ` : '' }
+                ` : ''}
                 ${userbool ? `
                 <div class="buttons-container">
-                    <button type="button" class="btn-edit">Editar</button>
-                    <button type="submit"class="btn-save" style="display: none;">Guardar</button>
-                    <button type="button"class="btn-delete">Eliminar</button>
+                    <button type="button" class="btn-edit" style="display: inline-block;">Editar</button>
+                    <button type="submit" class="btn-save" style="display: none;">Guardar</button>
+                    <button type="button" class="btn-cancel" style="display: none;">Cancelar</button>
                 </div>` : ''}
 
             </div>
-            ${product.image===''? '' : `
+            ${product.image === '' ? '' : `
             <div class="product-image-section">
                 <img src="${product.image}" alt="${product.name}" class="product-image">
                 <div class="form-group mt-4">
                     <label class="form-label">URL Imagen</label>
-                    <input type="url" class="detail-input" value="${product.image}"disabled>
+                    <input type="url" class="detail-input image" value="${product.image}"disabled>
                 </div>
             </div>`}
         </form>
     </div>`;
+}
+
+
+export function productEnableEdit(container) {
+    const nameElement = container.querySelector('.name');
+    nameElement.removeAttribute('disabled');
+    const descriptionElement = container.querySelector('.description');
+    descriptionElement.removeAttribute('disabled');
+    const priceElement = container.querySelector('.price');
+    priceElement.removeAttribute('disabled');
+    const typeElement = container.querySelector('.type');
+    typeElement.removeAttribute('disabled');
+    const tagsContainer = container.querySelectorAll('input[name="tags"]');
+    tagsContainer.forEach(input => {
+        input.disabled = false;
+    });
+    const imageElement = container.querySelector('.image');
+    imageElement.removeAttribute('disabled');
+}
+
+export function productDisabledEdit(container,detailprd) {
+    console.log('desHabilitando edición de producto');
+    const nameElement = container.querySelector('.name');
+    nameElement.value=detailprd.name
+    nameElement.setAttribute('disabled','disabled');
+    const descriptionElement = container.querySelector('.description');
+    descriptionElement.setAttribute('disabled','disabled');
+    descriptionElement.value = detailprd.description
+    const priceElement = container.querySelector('.price');
+    priceElement.setAttribute('disabled','disabled');
+    priceElement.value = detailprd.price;
+    const typeElement = container.querySelector('.type');
+    typeElement.setAttribute('disabled','disabled');
+    typeElement.value = detailprd.type
+
+    const tagsContainer = container.querySelectorAll('input[name="tags"]');
+    tagsContainer.forEach(input => {
+        input.disabled = true;
+        input.checked = detailprd.tags.includes(input.value);
+
+    });
+    const imageElement = container.querySelector('.image');
+    imageElement.setAttribute('disabled','disabled');
+    imageElement.value = detailprd.image
 }
