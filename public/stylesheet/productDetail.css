@@ -9,7 +9,6 @@
     max-width: 800px;
 }
 
-
 /* TITLE */
 .page-title {
     font-size: 36px;
@@ -193,7 +192,11 @@ select:not(:disabled) {
 
 /* SAVE */
 .btn-save {
-    background: #f3f4f6;
+    background: #49ddac;
+    color: #111827;
+}
+.btn-cancel {
+    background: #e24646;
     color: #111827;
 }
 

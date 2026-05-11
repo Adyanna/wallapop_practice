@@ -1,4 +1,7 @@
 export function renderProducts(prdc, container) {
+
+    // console.log('llega hasta aqui cxxxx');
+    //  console.log(prdc);
     container.innerHTML = '';
     prdc.forEach(prd => {
         const prdDiv = document.createElement('a');
@@ -186,20 +189,20 @@ export function renderProductDetail(product, userbool) {
             <div class="product-info-section">
                 <div class="form-group">
                     <label class="form-label">Nombre</label>
-                    <input type="text" class="detail-input title-input name" value="${product.name}" disabled>
+                    <input type="text" class="detail-input title-input name" name="name" value="${product.name}" disabled>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Descripción</label>
-                    <textarea class="detail-input textarea-input description" disabled>${product.description}</textarea>
+                    <textarea class="detail-input textarea-input description" name="description" disabled>${product.description}</textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Precio</label>
-                    <input type="number" class="detail-input price-input price" value="${product.price}" disabled>
+                    <input type="number" class="detail-input price-input price" name="price" value="${product.price}" disabled>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Tipo</label>
 
-                    <select class="detail-input type-input type" disabled>
+                    <select class="detail-input type-input type"  name="type" disabled>
                         <option value="sale" ${product.type === 'sale' ? 'selected' : ''}>
                             Venta
                         </option>
@@ -226,7 +229,7 @@ export function renderProductDetail(product, userbool) {
                 ${product.image === '' ? `
                 <div class="form-group">
                     <label class="form-label">URL Imagen</label>
-                    <input type="url" class="detail-input image" value="" disabled>
+                    <input type="url" class="detail-input image" value="" name="image" disabled>
                 </div>
                 ` : ''}
                 ${userbool ? `
@@ -242,7 +245,7 @@ export function renderProductDetail(product, userbool) {
                 <img src="${product.image}" alt="${product.name}" class="product-image">
                 <div class="form-group mt-4">
                     <label class="form-label">URL Imagen</label>
-                    <input type="url" class="detail-input image" value="${product.image}"disabled>
+                    <input type="url" class="detail-input image" name="image" value="${product.image}"disabled>
                 </div>
             </div>`}
         </form>

@@ -5,12 +5,12 @@ export const notificationController = (container) => {
 
     console.log('notificationController initialized with container:', container);
     const notificationShow = (message, type_error) => {
-        console.log('notificationShow called with message:', message, 'and type_error:', type_error);
+        //console.log('notificationShow called with message:', message, 'and type_error:', type_error);
         const newNot = document.createElement('div');
         newNot.innerHTML = notificationView(message, type_error);
         console.log(newNot);
         container.appendChild(newNot);
-        console.log('Notification:', message," - ", type_error);
+        //console.log('Notification:', message," - ", type_error);
         setTimeout(() => {
              newNot.remove();
           }, 3000);
