@@ -1,20 +1,25 @@
-export function renderProducts(prdc, container) {
-
-    // console.log('llega hasta aqui cxxxx');
-    //  console.log(prdc);
+export function renderProducts(prdc, container, limit, pagination,page) {
     container.innerHTML = '';
+    //aniadir el cantidad de productos por pagina
+    container.appendChild(renderLimitSelect(limit));
+
+    const prdDiv = document.createElement('div');
+    prdDiv.classList.add('products-container-items')
     prdc.forEach(prd => {
-        const prdDiv = document.createElement('a');
-        prdDiv.href = './products/products-detail.html?id=' + prd.id;
-        prdDiv.style.textDecoration = 'none';
-        prdDiv.style.color = 'inherit';
+        const prdA = document.createElement('a');
+        prdA.href = './products/products-detail.html?id=' + prd.id;
+        prdA.style.textDecoration = 'none';
+        prdA.style.color = 'inherit';
         let tagsDiv = '<span class="producto-tags">';
-        prd.tags.forEach(tag => {
-            tagsDiv += `<span class="tag">${tag}</span>`;
-        });
+        if (prd.tags && prd.tags.length > 0) {
+            prd.tags.forEach(tag => {
+                tagsDiv += `<span class="tag">${tag}</span>`;
+            });
+        }
+
         tagsDiv += '</span>';
 
-        prdDiv.innerHTML = `
+        prdA.innerHTML = `
         <div class="producto-card">
             ${prd.image ? `<img class="producto-img" src="${prd.image}" alt="${prd.name}">` : ''}
             <div class="producto-content">
@@ -26,8 +31,39 @@ export function renderProducts(prdc, container) {
             </div>
         </div>
         `;
-        container.appendChild(prdDiv);
+        prdDiv.appendChild(prdA);
     });
+    container.appendChild(prdDiv);
+    //anadir el paginador
+    container.appendChild(renderPagination(pagination,page));
+}
+
+function renderLimitSelect(currentLimit) {
+    console.log('current limite ', currentLimit)
+    let container = document.createElement('div');
+    container.innerHTML = `<select class="limit-select">
+            <option value="5" ${currentLimit === 5 ? 'selected' : ''}>5</option>
+            <option value="10" ${currentLimit === 10 ? 'selected' : ''}>10</option>
+            <option value="25" ${currentLimit === 25 ? 'selected' : ''}>25</option>
+            <option value="50" ${currentLimit === 50 ? 'selected' : ''}>50</option>
+        </select>`;
+    return container;
+}
+
+function renderPagination(pagination,active) {
+    let container = document.createElement('div');
+    container.classList.add('pagination-container');
+
+    let body = '<div class="pagination-pages">';
+    //active
+    for (let i = 1; i<=pagination;i++) {
+        body += ` <button class="pagination-number ${active===i?'active':''}">
+            ${i}
+        </button>`;
+    };
+    body +='</div>';
+    container.innerHTML = body;
+    return container;
 }
 
 export function renderEmpty(container) {
@@ -60,9 +96,20 @@ export function renderCreateProductForm() {
                     <div class="mb-3">
                         <label class="form-label">Descripción</label>
 
-                        <textarea class="form-control custom-input textarea" rows="4" maxlength="300"
+                        <textarea class="form-control custom-input textarea" rows="3" maxlength="300"
                             name="description" required></textarea>
                     </div>
+
+                    <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+
+                    <select class="form-control custom-input"  name="type" required>
+                        <option value="">Selecionar..</option>
+                        <option value="sale">Venta</option>
+                        <option value="purchase">Compra</option>
+                    </select>
+                </div>
+
 
                     <!-- PRICE -->
                     <div class="mb-3">
@@ -167,8 +214,11 @@ export function renderCreateProductForm() {
                     </div>
 
                     <div class="btn-container mb-4">
-                        <button type="submit" class="btn-product">
+                        <button type="submit" class="btn-formnew btn-product">
                             Publicar producto
+                        </button>
+                         <button type="button" class="btn-formnew btn-cancel">
+                            Cancelar
                         </button>
                     </div>
 
@@ -181,11 +231,11 @@ export function renderCreateProductForm() {
 }
 
 export function renderProductDetail(product, userbool) {
-    return `<div class="product-detail-wrapper ${!product.image?'no-image':''}">
+    return `<div class="product-detail-wrapper ${!product.image ? 'no-image' : ''}">
     <h1 class="page-title">
         Detalle del producto
     </h1>
-        <form class="product-detail-form ${!product.image?'no-image':''}">
+        <form class="product-detail-form ${!product.image ? 'no-image' : ''}">
             <div class="product-info-section">
                 <div class="form-group">
                     <label class="form-label">Nombre</label>
@@ -252,7 +302,6 @@ export function renderProductDetail(product, userbool) {
     </div>`;
 }
 
-
 export function productEnableEdit(container) {
     const nameElement = container.querySelector('.name');
     nameElement.removeAttribute('disabled');
@@ -270,19 +319,19 @@ export function productEnableEdit(container) {
     imageElement.removeAttribute('disabled');
 }
 
-export function productDisabledEdit(container,detailprd) {
+export function productDisabledEdit(container, detailprd) {
     console.log('desHabilitando edición de producto');
     const nameElement = container.querySelector('.name');
-    nameElement.value=detailprd.name
-    nameElement.setAttribute('disabled','disabled');
+    nameElement.value = detailprd.name
+    nameElement.setAttribute('disabled', 'disabled');
     const descriptionElement = container.querySelector('.description');
-    descriptionElement.setAttribute('disabled','disabled');
+    descriptionElement.setAttribute('disabled', 'disabled');
     descriptionElement.value = detailprd.description
     const priceElement = container.querySelector('.price');
-    priceElement.setAttribute('disabled','disabled');
+    priceElement.setAttribute('disabled', 'disabled');
     priceElement.value = detailprd.price;
     const typeElement = container.querySelector('.type');
-    typeElement.setAttribute('disabled','disabled');
+    typeElement.setAttribute('disabled', 'disabled');
     typeElement.value = detailprd.type
 
     const tagsContainer = container.querySelectorAll('input[name="tags"]');
@@ -292,6 +341,6 @@ export function productDisabledEdit(container,detailprd) {
 
     });
     const imageElement = container.querySelector('.image');
-    imageElement.setAttribute('disabled','disabled');
+    imageElement.setAttribute('disabled', 'disabled');
     imageElement.value = detailprd.image
 }

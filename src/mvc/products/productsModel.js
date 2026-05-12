@@ -1,7 +1,7 @@
 
-export const loadProductsModel = async () => {
-    const limit = 10;
-    const page = 1;
+export const loadProductsModel = async (limit,page) => {
+    // const limit = 10;
+    // const page = 1;
     const URL = `http://localhost:8000/api/products?_page=${page}&_limit=${limit}`;
     try {
         const response = await fetch(URL, {
@@ -15,6 +15,33 @@ export const loadProductsModel = async () => {
         }
         const data = await response.json();
         return data;
+
+    } catch (error) {
+        if (error.message === 'Failed to fetch') {
+            throw new Error('No se puede conectar con el servidor, por favor intenta de nuevo más tarde');
+        }
+    }
+}
+
+export const loadProductsTotalModel = async () => {
+    // const limit = 10;
+    // const page = 1;
+    const URL = `http://localhost:8000/api/products`;
+    try {
+        const response = await fetch(URL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error('No se encuentran productos que mostrar');
+        }
+        const data = await response.json();
+        console.log(response,'=',response.headers.get('X-Total-Count'));
+        //response.headers.get('X-Total-Count')
+        console.log(data.length);
+        return data.length;
 
     } catch (error) {
         if (error.message === 'Failed to fetch') {

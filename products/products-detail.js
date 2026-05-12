@@ -8,7 +8,7 @@ let notificationContainer = document.querySelector('.notification-container');
 let productDetailContainer = document.querySelector('.productDetail-container');
 let spinnerContainer = document.querySelector('.spinner-container');
 //ARMAMOS EL HEADER
-headerController(headerContainer);
+headerController(headerContainer,'detail');
 
 //ANIADIMOS EL EVENTRO DEL SPINNER DE CARGA
 const { createLoading, removeLoading } = loadingController(spinnerContainer);

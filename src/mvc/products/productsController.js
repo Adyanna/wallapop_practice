@@ -1,4 +1,4 @@
-import { loadProductsModel, createProductModel, loadProductModel, updateProductModel } from './productsModel.js';
+import { loadProductsModel, createProductModel, loadProductModel, updateProductModel, loadProductsTotalModel } from './productsModel.js';
 import { renderProducts, renderEmpty, renderCreateProductForm, renderProductDetail, productEnableEdit, productDisabledEdit } from './productsView.js';
 import { getLogUserInfo } from "../singup/singupModel.js";
 //MUESTRA TODO
@@ -7,9 +7,37 @@ export const productController = async (container) => {
     try {
         const loadingEvent = new CustomEvent('ShowLoading');
         container.dispatchEvent(loadingEvent);
-        const products = await loadProductsModel();
+
+        const limit = Number(new URLSearchParams(window.location.search).get('limit')) || 5;
+        const page = Number(new URLSearchParams(window.location.search).get('page')) || 1;
+        const products = await loadProductsModel(limit, page);
+        const total = await loadProductsTotalModel();
+        const pagination = Math.ceil(total / limit);
+        console.log(total, '/', limit, '=', pagination), '-', total;
         if (products.length > 0) {
-            renderProducts(products, container);
+            // const limitediv = renderLimitSelect();
+            renderProducts(products, container, limit, pagination, page);
+            const limitSelect = container.querySelector('.limit-select');
+            const pagButtons = container.querySelectorAll('.pagination-number');
+            limitSelect.addEventListener('change', (e) => {
+                const limit = e.target.value;
+                const url = new URL(window.location);
+                url.searchParams.set('limit', limit)
+                url.searchParams.set('page', 1); //o page dependera de la cantidad de productos que se tiene
+                window.location.href = url;
+            });
+            if (pagButtons.length > 1) {
+                pagButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const selectedPage = Number(button.textContent.trim());
+                        console.log('NUMERO DE PAGINA',selectedPage);
+                        const url = new URL(window.location);
+                        url.searchParams.set('limit', limit)
+                        url.searchParams.set('page', selectedPage);
+                        window.location.href = url;
+                    });
+                });
+            }
         } else {
             renderEmpty(container);
             throw new Error("No se encuentran productos que mostrar");
@@ -36,6 +64,11 @@ export const createProductPageController = (container) => {
         if (token) {
             container.innerHTML = renderCreateProductForm();
             const formHTML = container.querySelector('form');
+            const btnCancel = container.querySelector('.btn-cancel')
+            btnCancel.addEventListener('click', () => {
+                container.innerHTML = '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
             formHTML.addEventListener('submit', (e) => {
                 e.preventDefault();
                 createProductController(formHTML, container);

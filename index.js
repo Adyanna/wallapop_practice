@@ -13,7 +13,7 @@ let newProductContainer = document.querySelector('.new-product');
 headerContainer.addEventListener('LoadUserInfo', (e) => {
     notificationShow(e.detail.message, e.detail.type_error);
 });
-headerController(headerContainer);
+headerController(headerContainer,'index');
 
 const { createLoading, removeLoading } = loadingController(loadingContainer);
 productsContainer.addEventListener('ShowLoading',createLoading);

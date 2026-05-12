@@ -1,9 +1,9 @@
 
-export const logoutNavbar = (u) => {
+export const logoutNavbar = (u,type) => {
     return `<ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                  ${type!=='detail'?`  <li class="nav-item">
                         <button class="nav-link btn btn-link new-product">Crear producto</button>
-                    </li>
+                    </li>`:''}
             </ul>
             <ul class="navbar-nav">
                     <li class="nav-item">
@@ -17,13 +17,15 @@ export const logoutNavbar = (u) => {
 
 //SINGIP NO CREAR NAVBAR
 
-export const loginNavbar = () => {
+export const loginNavbar = (type) => {
+    console.log(type)
      return `<ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="../login/login.html">Login</a>
                     </li>
+                    ${type!=='singup'? `
                     <li class="nav-item">
                         <a class="nav-link" href="./singup/singup.html">Signup</a>
-                    </li>
+                    </li>`:''}
                 </ul>`;
 }

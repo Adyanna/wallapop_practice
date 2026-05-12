@@ -7,7 +7,7 @@ let formSingup = document.querySelector('form');
 let headerContainer = document.querySelector('.navbarNav');
 let notificationContainer = document.querySelector('.notification-container');
 
-headerController(headerContainer);
+headerController(headerContainer,'singup');
 //const { createLoading, removeLoading } = loadingController(notificationContainer);
 //productsContainer.addEventListener('ShowLoading',createLoading);
 //productsContainer.addEventListener('RemoveLoading',removeLoading);

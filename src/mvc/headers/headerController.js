@@ -1,12 +1,12 @@
 import { loginNavbar, logoutNavbar } from "./headerView.js";
 import { getLogUserInfo } from "../singup/singupModel.js";
 
-export const headerController = async (container) => {
+export const headerController = async (container,type) => {
     const user = localStorage.getItem('token');
     if (user) {
         try {
             const userInfo = await getLogUserInfo(user);
-            container.innerHTML = logoutNavbar(userInfo.name);
+            container.innerHTML = logoutNavbar(userInfo.name,type);
             const logoutButton = container.querySelector('.btnlogout');
             logoutButton.addEventListener('click', () => {
                 localStorage.removeItem('token');
@@ -27,6 +27,6 @@ export const headerController = async (container) => {
             container.dispatchEvent(failedEvent);
         }
     } else {
-        container.innerHTML = loginNavbar();
+        container.innerHTML = loginNavbar(type);
     }
 };
