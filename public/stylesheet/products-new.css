@@ -75,23 +75,16 @@
 
     width: 100%;
     height: 50px;
-
     border-radius: 12px !important;
-
     border: 1px solid #d1d5db !important;
-
     padding: 0 14px;
-
     transition: all 0.2s ease;
-
     box-shadow: none !important;
 }
 
 /* FOCUS */
 .custom-input:focus {
-
     border-color: #111827 !important;
-
     transform: translateY(-1px);
 }
 
@@ -143,14 +136,22 @@
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    gap: 1rem;
 }
 .btn-product {
-    width: 30%;
+    background: #64d88b;
+    color: rgb(14, 13, 13);
+}
+.btn-cancel {
+    background: #d86464;
+    color: rgb(14, 13, 13);
+}
+
+.btn-formnew {
+    width: 20%;
     height: 54px;
     border: none;
     border-radius: 14px;
-    background: #111827;
-    color: white;
     font-size: 15px;
     font-weight: 600;
     transition: all 0.2s ease;
@@ -158,11 +159,18 @@
 
 /* BUTTON HOVER */
 .btn-product:hover {
-    background: #000000;
+    background: #52c67a;
+    transform: translateY(-2px);
+}
+.btn-cancel:hover {
+    background: #bf4a4a;
     transform: translateY(-2px);
 }
 
 .btn-product:active {
+    transform: scale(0.98);
+}
+.btn-cancel:active {
     transform: scale(0.98);
 }
 

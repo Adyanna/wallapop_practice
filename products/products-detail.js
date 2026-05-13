@@ -8,11 +8,12 @@ let notificationContainer = document.querySelector('.notification-container');
 let productDetailContainer = document.querySelector('.productDetail-container');
 let spinnerContainer = document.querySelector('.spinner-container');
 //ARMAMOS EL HEADER
-headerController(headerContainer);
+headerController(headerContainer,'detail');
 
 //ANIADIMOS EL EVENTRO DEL SPINNER DE CARGA
 const { createLoading, removeLoading } = loadingController(spinnerContainer);
-productDetailContainer.addEventListener('ShowLoading',createLoading);
+productDetailContainer.addEventListener('ShowLoading',()=>{createLoading()});
+productDetailContainer.addEventListener('ShowLoadingOverlay',()=>{createLoading('overlay')});
 productDetailContainer.addEventListener('RemoveLoading',removeLoading);
 
 //ANIADIMOS EL EVENTO DE NOTIFICACION DE ERROR/EXITO

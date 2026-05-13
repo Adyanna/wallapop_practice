@@ -11,12 +11,16 @@
     <link rel="stylesheet" href="./public/stylesheet/notificationStyle.css">
     <link rel="stylesheet" href="./public/stylesheet/spinnerStyle.css">
     <link rel="stylesheet" href="./public/stylesheet/products-new.css">
+    <link rel="stylesheet" href="./public/stylesheet/headerStyle.css">
 </head>
 
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
             <div class="container-fluid">
+                <a class="navbar-brand" href="/"><img src="/public/images/logo-wallapop-home-v2.svg" class="logo"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse navbarNav" id="navbarNav"></div>
                 <a class="navbar-brand" href="/">
                     <img src="/public/images/logo-wallapop-home-v2.svg" class="logo">
                 </a>
@@ -30,9 +34,11 @@
     </header>
 
     <main id="main">
+
         <section class="notification-container"></section>
-        <section class="filtros"></section>
         <section class="new-product"></section>
+        <section class="filter-container"></section>
+        <section class="load-container"></section>
         <section class="products-container"></section>
     </main>
     <footer>

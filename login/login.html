@@ -8,54 +8,54 @@
 
     <link rel="stylesheet" href="../public/stylesheet/login.css">
     <link rel="stylesheet" href="../public/stylesheet/notificationStyle.css">
-
+    <link rel="stylesheet" href="../public/stylesheet/spinnerStyle.css">
     <title>Login</title>
 </head>
 
 <body>
 
     <section class="notification-container"></section>
-    <div class="login-container">
+    <section class="load-container"></section>
+    <section>
+        <div class="login-container">
 
-        <div class="login-card">
+            <div class="login-card">
 
-            <div class="login-header">
-                <img src="../public/images/logo-wallapop-home-v2.svg" class="logo">
-                <h2>Bienvenido</h2>
-                <p>Inicia sesión para continuar</p>
-            </div>
-
-            <form>
-
-                <!-- EMAIL -->
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input  type="email" class="form-control custom-input" placeholder="correo@email.com" name="user" required>
+                <div class="login-header">
+                    <img src="../public/images/logo-wallapop-home-v2.svg" class="logo">
+                    <h2>Bienvenido</h2>
+                    <p>Inicia sesión para continuar</p>
                 </div>
 
-                <!-- PASSWORD -->
-                <div class="mb-4">
-                    <label class="form-label">Contraseña</label>
+                <form>
 
-                    <input
-                        type="password"
-                        class="form-control custom-input"
-                        minlength="6"
-                        placeholder="••••••••"
-                        name="password"
-                        required>
+                    <!-- EMAIL -->
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control custom-input" placeholder="correo@email.com" name="user"
+                            required>
+                    </div>
+
+                    <!-- PASSWORD -->
+                    <div class="mb-4">
+                        <label class="form-label">Contraseña</label>
+
+                        <input type="password" class="form-control custom-input" minlength="6" placeholder="••••••••"
+                            name="password" required>
+                    </div>
+                    <button type="submit" class="btn-login"> Iniciar sesión</button>
+
+                </form>
+                <div class="login-footer">
+                    <span>¿No tienes cuenta?</span>
+                    <a href="../singup/singup.html">
+                        Crear cuenta
+                    </a>
                 </div>
-                <button type="submit" class="btn-login"> Iniciar sesión</button>
-
-            </form>
-            <div class="login-footer">
-                <span>¿No tienes cuenta?</span>
-                <a href="../signup/signup.html">
-                    Crear cuenta
-                </a>
             </div>
         </div>
-    </div>
+    </section>
     <script type="module" src="./login.js"></script>
 </body>
+
 </html>

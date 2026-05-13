@@ -1,12 +1,27 @@
 .loading-container {
-    width: 100%;
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(2px);
-    border-radius: 18px;
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(2px);
+  border-radius: 18px;
+}
+
+/* OVERLAY */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  backdrop-filter: blur(2px);
 }
 
 /* HTML: <div class="loader"></div> */
@@ -19,6 +34,7 @@
   position: relative;
   animation: l24 1s infinite linear;
 }
+
 .loader:before,
 .loader:after {
   content: "";
@@ -29,9 +45,13 @@
   animation: inherit;
   animation-duration: 2s;
 }
+
 .loader:after {
   animation-duration: 4s;
 }
+
 @keyframes l24 {
-  100% {transform: rotate(1turn)}
+  100% {
+    transform: rotate(1turn)
+  }
 }

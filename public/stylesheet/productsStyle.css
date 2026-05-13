@@ -1,8 +1,18 @@
 .products-container {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
     justify-content: space-between;
+    padding: 20px;
+    gap: 1rem;
+}
+
+.products-container-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: left;
     padding: 20px;
     gap: 1rem;
 }
@@ -12,7 +22,7 @@
     border-radius: 16px;
     overflow: hidden;
     background: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
 }
@@ -25,7 +35,7 @@
 
 .producto-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .producto-img {
@@ -117,6 +127,85 @@
     margin: 30px auto;
 
     box-shadow:
-        0 4px 10px rgba(0,0,0,0.03),
-        inset 0 1px 0 rgba(255,255,255,0.5);
+        0 4px 10px rgba(0, 0, 0, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* SELECT PAGINACIÓN */
+.limit-select {
+
+    padding: 8px 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+
+    font-size: 14px;
+    color: #111827;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* HOVER */
+.limit-select:hover {
+
+    border-color: #9ca3af;
+}
+
+/* FOCUS */
+.limit-select:focus {
+
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+}
+
+
+
+/* PAGINACION */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+/* BOTONES GENERALES */
+.pagination-number {
+    border: none;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* HOVER */
+.pagination-number:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-2px);
+}
+
+/* BOTÓN ACTIVO */
+.pagination-number.active {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* CONTENEDOR NÚMEROS */
+.pagination-pages {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }

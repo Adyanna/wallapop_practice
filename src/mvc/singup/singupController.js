@@ -1,10 +1,12 @@
 
 import { createUser } from "./singupModel.js";
 
-export const singupController = (container)=>{
+export const singupController = (container) => {
 
     container.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const Loading = new CustomEvent('ShowLoading');
+        container.dispatchEvent(Loading);
         const formData = new FormData(container);
         const name = formData.get('name');
         const email = formData.get('email');
@@ -73,6 +75,10 @@ export const singupController = (container)=>{
                 }
             });
             container.dispatchEvent(event);
+        }
+        finally {
+            const Loading = new CustomEvent('RemoveLoading');
+            container.dispatchEvent(Loading);
         }
     });
 };
