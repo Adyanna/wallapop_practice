@@ -1,8 +1,10 @@
 export function renderProducts(prdc, container, limit, pagination,page) {
+    
     container.innerHTML = '';
-    //aniadir el cantidad de productos por pagina
-    container.appendChild(renderLimitSelect(limit));
+    //anidir filtros
 
+
+    container.appendChild(renderLimitSelect(limit));
     const prdDiv = document.createElement('div');
     prdDiv.classList.add('products-container-items')
     prdc.forEach(prd => {
@@ -16,9 +18,7 @@ export function renderProducts(prdc, container, limit, pagination,page) {
                 tagsDiv += `<span class="tag">${tag}</span>`;
             });
         }
-
         tagsDiv += '</span>';
-
         prdA.innerHTML = `
         <div class="producto-card">
             ${prd.image ? `<img class="producto-img" src="${prd.image}" alt="${prd.name}">` : ''}
@@ -34,7 +34,6 @@ export function renderProducts(prdc, container, limit, pagination,page) {
         prdDiv.appendChild(prdA);
     });
     container.appendChild(prdDiv);
-    //anadir el paginador
     container.appendChild(renderPagination(pagination,page));
 }
 
@@ -76,156 +75,67 @@ export function renderEmpty(container) {
 }
 
 export function renderCreateProductForm() {
-    return `
-     <div class="product-container">
+    return `<div class="product-container">
             <div class="product-card">
-
                 <div class="product-header">
                     <h2>Publicar producto</h2>
                     <p>Completa la información del producto</p>
                 </div>
-
                 <form>
                     <div class="mb-3">
                         <label class="form-label">Nombre</label>
-
                         <input type="text" class="form-control custom-input" maxlength="80" name="name" required>
                     </div>
 
                     <!-- DESCRIPTION -->
                     <div class="mb-3">
                         <label class="form-label">Descripción</label>
-
-                        <textarea class="form-control custom-input textarea" rows="3" maxlength="300"
-                            name="description" required></textarea>
+                        <textarea class="form-control custom-input textarea" rows="3" maxlength="300" name="description" required></textarea>
                     </div>
 
                     <div class="mb-3">
-                    <label class="form-label">Tipo</label>
+                         <label class="form-label">Tipo</label>
 
-                    <select class="form-control custom-input"  name="type" required>
-                        <option value="">Selecionar..</option>
-                        <option value="sale">Venta</option>
-                        <option value="purchase">Compra</option>
-                    </select>
-                </div>
-
-
+                        <select class="form-control custom-input"  name="type" required>
+                            <option value="">Selecionar..</option>
+                            <option value="sale">Venta</option>
+                            <option value="purchase">Compra</option>
+                        </select>
+                    </div>
                     <!-- PRICE -->
                     <div class="mb-3">
                         <label class="form-label">Precio</label>
-
-                        <input type="number" step="0.01" min="0" class="form-control custom-input" placeholder="0.00"
-                            name="price" required>
+                        <input type="number" step="0.01" min="0" class="form-control custom-input" placeholder="0.00" name="price" required>
                     </div>
 
                     <!-- IMAGE -->
                     <div class="mb-3">
                         <label class="form-label">Imagen (URL)</label>
-
                         <input type="url" class="form-control custom-input" placeholder="https://..." name="image">
                     </div>
 
                     <!-- TAGS -->
                     <div class="mb-4">
 
-                        <label class="form-label d-block mb-3">
-                            Tags (máximo 3)
-                        </label>
+                        <label class="form-label d-block mb-3">Tags (máximo 3)</label>
                         <div class="tags-grid">
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Electrónicos">
-                            Electrónicos
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Electrodomésticos">
-                            Electrodomésticos
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Celulares">
-                            Celulares
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Computadoras">
-                            Computadoras
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Gaming">
-                            Gaming
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Audio y Video">
-                            Audio y Video
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Hogar">
-                            Hogar
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Muebles">
-                            Muebles
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Ropa">
-                            Ropa
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Calzados">
-                            Calzados
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Belleza">
-                            Belleza
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Deportes">
-                            Deportes
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Vehículos">
-                            Vehículos
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Herramientas">
-                            Herramientas
-                        </label>
-
-                        <label class="tag-item">
-                            <input type="checkbox" name="tags" value="Otros">
-                            Otros
-                        </label>
-
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Tecnología">Tecnología</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Hogar">Hogar</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Moda">Moda</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Belleza">Belleza</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Deportes">Deportes</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Vehículos">Vehículos</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Herramientas">Herramientas</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Entretenimiento">Entretenimiento</label>
+                            <label class="tag-item"><input type="checkbox" name="tags" value="Otros">Otros</label>
+                        </div>
                     </div>
-
-                    </div>
-
                     <div class="btn-container mb-4">
-                        <button type="submit" class="btn-formnew btn-product">
-                            Publicar producto
-                        </button>
-                         <button type="button" class="btn-formnew btn-cancel">
-                            Cancelar
-                        </button>
+                        <button type="submit" class="btn-formnew btn-product">Publicar producto</button>
+                        <button type="button" class="btn-formnew btn-cancel">Cancelar</button>
                     </div>
-
                 </form>
-
             </div>
-
         </div>
     `;
 }
@@ -344,3 +254,4 @@ export function productDisabledEdit(container, detailprd) {
     imageElement.setAttribute('disabled', 'disabled');
     imageElement.value = detailprd.image
 }
+

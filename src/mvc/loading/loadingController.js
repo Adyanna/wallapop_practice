@@ -2,17 +2,13 @@ import { renderLoading } from "./loadingView.js";
 
 export const loadingController = (container) => {
 
-    const createLoading = () => {
-        const loadingElement = renderLoading();
+    const createLoading = (type='container') => {
+        console.log('TIPO: ',type);
+        const loadingElement = renderLoading(type);
         container.appendChild(loadingElement);
-        //console.log(loadingElement);
     };
 
     const removeLoading = () => {
-        //  const loadingElement = container.querySelector('.loading-container');
-        //  if (loadingElement) {
-        //      container.removeChild(loadingElement);
-        //  }
         container.innerHTML = '';
     };
 

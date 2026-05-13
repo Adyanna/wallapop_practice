@@ -10,12 +10,17 @@ export const productController = async (container) => {
 
         const limit = Number(new URLSearchParams(window.location.search).get('limit')) || 5;
         const page = Number(new URLSearchParams(window.location.search).get('page')) || 1;
-        const products = await loadProductsModel(limit, page);
-        const total = await loadProductsTotalModel();
+        const name = new URLSearchParams(window.location.search).get('name') || "";
+        const price_gte = new URLSearchParams(window.location.search).get('price_gte') || "";
+        const price_lte = new URLSearchParams(window.location.search).get('price_lte') || "";
+        const type = new URLSearchParams(window.location.search).get('type') || "";
+        const tag = new URLSearchParams(window.location.search).get('tag') || "";
+
+        const products = await loadProductsModel(limit, page, name, price_gte, price_lte, type, tag);
+        const total = await loadProductsTotalModel(name, price_gte, price_lte, type, tag);
         const pagination = Math.ceil(total / limit);
-        console.log(total, '/', limit, '=', pagination), '-', total;
+
         if (products.length > 0) {
-            // const limitediv = renderLimitSelect();
             renderProducts(products, container, limit, pagination, page);
             const limitSelect = container.querySelector('.limit-select');
             const pagButtons = container.querySelectorAll('.pagination-number');
@@ -30,7 +35,6 @@ export const productController = async (container) => {
                 pagButtons.forEach(button => {
                     button.addEventListener('click', () => {
                         const selectedPage = Number(button.textContent.trim());
-                        console.log('NUMERO DE PAGINA',selectedPage);
                         const url = new URL(window.location);
                         url.searchParams.set('limit', limit)
                         url.searchParams.set('page', selectedPage);
@@ -68,10 +72,12 @@ export const createProductPageController = (container) => {
             btnCancel.addEventListener('click', () => {
                 container.innerHTML = '';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                //HABILITAR EL FILTRO
             });
             formHTML.addEventListener('submit', (e) => {
                 e.preventDefault();
                 createProductController(formHTML, container);
+                //OCULTAR EL FILTRO
             });
 
         }
@@ -82,6 +88,8 @@ export const createProductPageController = (container) => {
 //CREA PRODUCTO
 const createProductController = async (container, header) => {
     try {
+        const Loading = new CustomEvent('ShowLoading');
+        container.dispatchEvent(Loading);
         const formData = new FormData(container);
         const productData = {
             name: formData.get('name'),
@@ -111,6 +119,10 @@ const createProductController = async (container, header) => {
             }
         });
         header.dispatchEvent(failedEvent);
+    }
+    finally {
+        const Loading = new CustomEvent('RemoveLoading');
+        container.dispatchEvent(Loading);
     }
 }
 
@@ -195,7 +207,8 @@ export const productDetailController = async (container) => {
 
 async function UpdateProductController(idPrd, formUpdate, container) {
     try {
-
+        const eventLoad = new CustomEvent("ShowLoadingOverlay");
+        container.dispatchEvent(eventLoad);
         const formData = new FormData(formUpdate);
         const productData = {
             name: formData.get('name'),
@@ -214,8 +227,7 @@ async function UpdateProductController(idPrd, formUpdate, container) {
             }
         })
         container.dispatchEvent(eventSuccess);
-        window.location.reload();
-
+        productDetailController(container);
     } catch (error) {
         const eventFailed = new CustomEvent('showNotification', {
             detail: {
@@ -224,6 +236,9 @@ async function UpdateProductController(idPrd, formUpdate, container) {
             }
         });
         container.dispatchEvent(eventFailed);
+    } finally {
+        const eventLoad = new CustomEvent("RemoveLoading");
+        container.dispatchEvent(eventLoad);
     }
 }
 

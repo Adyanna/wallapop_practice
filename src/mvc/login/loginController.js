@@ -4,11 +4,13 @@ export const loginController = (container) => {
 
     container.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const Loading = new CustomEvent('ShowLoading');
+        container.dispatchEvent(Loading);
         const formData = new FormData(container);
         const user = formData.get('user');
         const password = formData.get('password');
         try {
-            const data =await loginModel(user, password);
+            const data = await loginModel(user, password);
             localStorage.setItem('token', data);
             const event = new CustomEvent('shownotification', {
                 detail: {
@@ -23,11 +25,15 @@ export const loginController = (container) => {
         } catch (error) {
             const event = new CustomEvent('shownotification', {
                 detail: {
-                    message: error.message, 
+                    message: error.message,
                     type_error: 'error'
                 }
             });
             container.dispatchEvent(event);
+        }
+        finally {
+            const Loading = new CustomEvent('RemoveLoading');
+            container.dispatchEvent(Loading);
         }
     });
 };

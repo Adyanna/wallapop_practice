@@ -1,0 +1,67 @@
+/* FORMULARIO */
+.filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    margin-bottom: 28px;
+    align-items: end;
+}
+
+/* GRUPO */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 180px;
+}
+
+/* LABEL */
+.filter-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* INPUTS Y SELECTS */
+.filter-input,
+.filter-select {
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background-color: #ffffff;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+/* FOCUS */
+.filter-input:focus,
+.filter-select:focus {
+    outline: none;
+    border-color: #64d88b;
+    box-shadow: 0 0 0 3px rgba(100, 216, 139, 0.2);
+}
+
+/* BOTÓN */
+.filter-button {
+    padding: 11px 24px;
+    border: none;
+    border-radius: 10px;
+    background-color: #64d88b;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: fit-content;
+}
+
+/* HOVER */
+.filter-button:hover {
+    background-color: #52c67a;
+    transform: translateY(-2px);
+}

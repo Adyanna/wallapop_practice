@@ -1,8 +1,14 @@
 
-export const loadProductsModel = async (limit,page) => {
-    // const limit = 10;
-    // const page = 1;
-    const URL = `http://localhost:8000/api/products?_page=${page}&_limit=${limit}`;
+export const loadProductsModel = async (limit, page, name, price_gte, price_lte, type, tag) => {
+
+    let filter = name ? '&name_like=' + name : '';
+    filter += price_gte ? '&price_gte=' + price_gte : '';
+    filter += price_lte ? '&price_lte=' + price_lte : '';
+    filter += type ? '&type=' + type : '';
+    filter += tag ? '&tag_like=' + tag : '';
+
+
+    const URL = `http://localhost:8000/api/products?_page=${page}&_limit=${limit}${filter}`;
     try {
         const response = await fetch(URL, {
             method: 'GET',
@@ -22,11 +28,17 @@ export const loadProductsModel = async (limit,page) => {
         }
     }
 }
+export const loadProductsTotalModel = async (name, price_gte, price_lte, type, tag) => {
+    let filters = [];
+    if (name) filters.push(`name_like=${name}`);
+    if (price_gte) filters.push(`price_gte=${price_gte}`);
+    if (price_lte) filters.push(`price_lte=${price_lte}`);
+    if (type) filters.push(`type=${type}`);
+    if (tag) {filters.push(`tags_like=${tag}`);}
 
-export const loadProductsTotalModel = async () => {
-    // const limit = 10;
-    // const page = 1;
-    const URL = `http://localhost:8000/api/products`;
+    const query = filters.length > 0? `?${filters.join('&')}`: '';
+    console.log('desde el model: ',query,filters)
+    const URL = `http://localhost:8000/api/products${query}`;
     try {
         const response = await fetch(URL, {
             method: 'GET',
@@ -38,7 +50,7 @@ export const loadProductsTotalModel = async () => {
             throw new Error('No se encuentran productos que mostrar');
         }
         const data = await response.json();
-        console.log(response,'=',response.headers.get('X-Total-Count'));
+        console.log(response, '=', response.headers.get('X-Total-Count'));
         //response.headers.get('X-Total-Count')
         console.log(data.length);
         return data.length;
@@ -97,10 +109,10 @@ export async function loadProductModel(productId) {
 
 export async function updateProductModel(idprd, dataprd) {
     const url = `http://localhost:8000/api/products/${idprd}`;
-    console.log(idprd,dataprd);
+    console.log(idprd, dataprd);
     try {
         const token = localStorage.getItem('token');
-        if(!token){
+        if (!token) {
             throw new Error("Por favor, vuelva a iniciar session");
         }
         const response = await fetch(url, {
@@ -109,16 +121,18 @@ export async function updateProductModel(idprd, dataprd) {
                 'Content-Type': 'application/json',
                 'Authorization': `bearer ${token}`
             },
-            body: JSON.stringify({name: dataprd.name,
-            description: dataprd.description,
-            price: dataprd.price,
-            type: dataprd.type,
-            image: dataprd.image,
-            tags: dataprd.tags})
+            body: JSON.stringify({
+                name: dataprd.name,
+                description: dataprd.description,
+                price: dataprd.price,
+                type: dataprd.type,
+                image: dataprd.image,
+                tags: dataprd.tags
+            })
         });
         console.log(response)
         if (!response.ok) {
-            throw new Error("Error al editar los datos"); 
+            throw new Error("Error al editar los datos");
         }
         const data = await response.json();
         console.log(data);
@@ -126,6 +140,6 @@ export async function updateProductModel(idprd, dataprd) {
 
     } catch (error) {
         throw new Error("Error al editar los datos");
-        
+
     }
 }
